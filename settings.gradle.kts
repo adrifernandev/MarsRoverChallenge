@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Mars Rover Challenge"
 include(":app")
+include(":domain")
