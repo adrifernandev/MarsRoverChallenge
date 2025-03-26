@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.adrifernandev.marsroverchallenge.domain"
-    compileSdk = 35
+    namespace = Versions.APPLICATION_ID
+    compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
-        minSdk = 28
+        minSdk = Versions.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -24,11 +24,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Versions.JVM_TARGET
     }
 }
 

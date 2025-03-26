@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.adrifernandev.marsroverchallenge"
-    compileSdk = 35
+    namespace = Versions.APPLICATION_ID
+    compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "com.adrifernandev.marsroverchallenge"
-        minSdk = 28
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Versions.APPLICATION_ID
+        minSdk = Versions.MIN_SDK
+        targetSdk = Versions.COMPILE_SDK
+        versionCode = Versions.APP_VERSION_CODE
+        versionName = Versions.APP_VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Versions.JVM_TARGET
     }
     buildFeatures {
         compose = true
