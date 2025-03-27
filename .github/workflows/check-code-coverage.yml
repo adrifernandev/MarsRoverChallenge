@@ -48,34 +48,6 @@ jobs:
         id: changed_files
         uses: tj-actions/changed-files@v44
 
-      - name: Analyze untested classes and coverage in changed files
-        run: |
-          echo "### 📊 Code Coverage Report" > report.md
-          echo "" >> report.md
-          
-          if [[ "${{ steps.run_tests.outcome }}" == "failure" ]]; then
-            echo "❌ **Tests failed! Please check and fix them.**" >> report.md
-          else
-            echo "✅ **All tests passed!**" >> report.md
-          fi
-
-          echo "" >> report.md
-          echo "#### 🔍 Coverage Details for Changed Files:" >> report.md
-          
-          for file in ${{ steps.changed_files.outputs.all_changed_files }}; do
-            class_name=$(basename $file .kt)
-            coverage=$(grep -A2 "<counter type=\"INSTRUCTION\"" app/build/reports/kover/reportDebug.xml | grep $class_name | awk -F 'covered=\"' '{print $2}' | awk -F '\"' '{print $1}')
-            missed=$(grep -A2 "<counter type=\"INSTRUCTION\"" app/build/reports/kover/reportDebug.xml | grep $class_name | awk -F 'missed=\"' '{print $2}' | awk -F '\"' '{print $1}')
-          
-            if [[ -z "$coverage" ]]; then
-              echo "- ❌ $class_name: **No tests found!**" >> report.md
-            else
-              total=$((coverage + missed))
-              percentage=$((100 * coverage / total))
-              echo "- ✅ $class_name: **$percentage% covered**" >> report.md
-            fi
-          done
-
       - name: Post coverage report as PR comment
         uses: mshick/add-pr-comment@v2
         with:
