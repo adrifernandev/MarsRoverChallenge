@@ -1,0 +1,70 @@
+name: Check Code Coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run tests
+        id: run_tests
+        run: ./gradlew :app:testDebugUnitTest
+        continue-on-error: true
+
+      - name: Generate kover coverage report
+        run: ./gradlew :app:koverXmlReportDebug
+
+      - name: Calculate test results and coverage
+        run: |
+          echo "### 📝 Test & Coverage Report" > report.md
+          echo "" >> report.md
+          
+          if [[ "${{ steps.run_tests.outcome }}" == "failure" ]]; then
+            echo "❌ **Tests failed! Please check and fix them.**" >> report.md
+          else
+            echo "✅ **All tests passed!**" >> report.md
+          fi
+
+          total_covered=$(grep -oP '(?<=covered=")\d+' app/build/reports/kover/reportDebug.xml | paste -sd+ | bc)
+          total_missed=$(grep -oP '(?<=missed=")\d+' app/build/reports/kover/reportDebug.xml | paste -sd+ | bc)
+          total_instructions=$((total_covered + total_missed))
+
+          if [[ $total_instructions -gt 0 ]]; then
+            coverage_percentage=$((100 * total_covered / total_instructions))
+            echo "" >> report.md
+            echo "📊 **Total Code Coverage: $coverage_percentage%**" >> report.md
+          else
+            echo "" >> report.md
+            echo "⚠️ **Coverage data not found!**" >> report.md
+          fi
+
+      - name: Post report as PR comment
+        uses: mshick/add-pr-comment@v2
+        with:
+          message-path: report.md
+          refresh-message-position: true
+
+      - name: Fail if tests failed
+        if: steps.run_tests.outcome == 'failure'
+        run: exit 1

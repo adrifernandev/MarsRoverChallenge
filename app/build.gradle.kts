@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.kover)
 }
 
 android {
@@ -26,6 +28,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+
+        }
     }
     compileOptions {
         sourceCompatibility = Versions.javaVersion
@@ -39,9 +44,40 @@ android {
     }
 }
 
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy("*Composable")
+                classes("*.ui.*")
+                classes("*.di.*")
+                classes("*Activity")
+                classes("*generated*")
+                classes("*ComposableSingletons*")
+            }
+        }
+        verify {
+            rule("Minimum coverage") {
+                bound {
+                    minValue = 80
+                }
+            }
+        }
+        variant("debug") {
+            xml {
+                onCheck = true
+            }
+            html {
+                onCheck = true
+            }
+        }
+    }
+}
+
 dependencies {
     implementation(libs.bundles.layer.presentation)
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(project(":designsystem"))
+    testImplementation(libs.bundles.testing.unit)
 }
