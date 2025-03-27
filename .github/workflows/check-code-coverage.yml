@@ -49,29 +49,6 @@ jobs:
           else
             echo "✅ **All tests passed!**" >> report.md
           fi
-
-          echo "" >> report.md
-          echo "#### 🔍 Coverage Details for Changed Files:" >> report.md
-
-          # Obtener clases cubiertas en el reporte de cobertura
-          covered_classes=$(grep -oP '(?<=name=\").*?(?=\")' app/build/reports/kover/reportDebug.xml | sed 's/\//./g' | sed 's/.class//g')
-
-          for file in ${{ steps.changed_files.outputs.all_changed_files }}; do
-            class_name=$(basename $file .kt)
-          
-            # Verificar si la clase está en el reporte de cobertura
-            if echo "$covered_classes" | grep -q "$class_name"; then
-              coverage=$(grep -A2 "<counter type=\"INSTRUCTION\"" app/build/reports/kover/reportDebug.xml | grep $class_name | awk -F 'covered=\"' '{print $2}' | awk -F '\"' '{print $1}')
-              missed=$(grep -A2 "<counter type=\"INSTRUCTION\"" app/build/reports/kover/reportDebug.xml | grep $class_name | awk -F 'missed=\"' '{print $2}' | awk -F '\"' '{print $1}')
-          
-              if [[ -n "$coverage" && -n "$missed" ]]; then
-                total=$((coverage + missed))
-                percentage=$((100 * coverage / total))
-                echo "- ✅ $class_name: **$percentage% covered**" >> report.md
-              else
-                echo "- ❌ $class_name: **No tests found!**" >> report.md
-              fi
-            fi
           done
 
       - name: Post coverage report as PR comment
