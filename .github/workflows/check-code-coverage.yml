@@ -33,6 +33,9 @@ jobs:
       - name: Generate kover coverage report
         run: ./gradlew :app:koverXmlReportDebug
 
+      - name: Verify coverage (80% minimum)
+        run: ./gradlew :app:koverVerify
+
       - name: Add coverage report to PR
         uses: mi-kas/kover-report@v1
         with:
