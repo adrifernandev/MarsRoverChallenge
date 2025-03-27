@@ -35,13 +35,9 @@ jobs:
       - name: Generate kover coverage report
         run: ./gradlew :app:koverXmlReportDebug
 
-      - name: Get list of changed files
-        id: changed_files
-        uses: tj-actions/changed-files@v44
-
-      - name: Analyze untested classes and coverage in changed files
+      - name: Calculate test results and coverage
         run: |
-          echo "### 📊 Code Coverage Report" > report.md
+          echo "### 📝 Test & Coverage Report" > report.md
           echo "" >> report.md
           
           if [[ "${{ steps.run_tests.outcome }}" == "failure" ]]; then
@@ -49,9 +45,21 @@ jobs:
           else
             echo "✅ **All tests passed!**" >> report.md
           fi
-          done
 
-      - name: Post coverage report as PR comment
+          total_covered=$(grep -oP '(?<=covered=")\d+' app/build/reports/kover/reportDebug.xml | paste -sd+ | bc)
+          total_missed=$(grep -oP '(?<=missed=")\d+' app/build/reports/kover/reportDebug.xml | paste -sd+ | bc)
+          total_instructions=$((total_covered + total_missed))
+
+          if [[ $total_instructions -gt 0 ]]; then
+            coverage_percentage=$((100 * total_covered / total_instructions))
+            echo "" >> report.md
+            echo "📊 **Total Code Coverage: $coverage_percentage%**" >> report.md
+          else
+            echo "" >> report.md
+            echo "⚠️ **Coverage data not found!**" >> report.md
+          fi
+
+      - name: Post report as PR comment
         uses: mshick/add-pr-comment@v2
         with:
           message-path: report.md
