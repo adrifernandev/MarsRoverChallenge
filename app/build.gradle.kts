@@ -49,7 +49,11 @@ kover {
         filters {
             excludes {
                 annotatedBy("*Composable")
-                classes("com.adrifernandev.marsroverchallenge.ui.*")
+                classes("*.ui.*")
+                classes("*.di.*")
+                classes("*Activity")
+                classes("*generated*")
+                classes("*ComposableSingletons*")
             }
         }
         verify {
