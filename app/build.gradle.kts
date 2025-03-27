@@ -49,6 +49,14 @@ kover {
         filters {
             excludes {
                 annotatedBy("*Composable")
+                classes("com.adrifernandev.marsroverchallenge.ui.*")
+            }
+        }
+        verify {
+            rule("Minimum coverage") {
+                bound {
+                    minValue = 80
+                }
             }
         }
         variant("debug") {
@@ -67,4 +75,5 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(project(":designsystem"))
+    testImplementation(libs.bundles.testing.unit)
 }
