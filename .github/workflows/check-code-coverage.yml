@@ -32,7 +32,7 @@ jobs:
       - name: Add coverage report to PR
         uses: mi-kas/kover-report@v1
         with:
-          path: ${{ github.workspace }}/app/build/reports/kover/xml/report.xml
+          path: ${{ github.workspace }}/app/build/reports/kover/reportDebug.xml
           title: Code Coverage
           update-comment: true
           min-coverage-overall: 50
