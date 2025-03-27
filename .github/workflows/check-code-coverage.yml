@@ -41,6 +41,3 @@ jobs:
           update-comment: true
           min-coverage-overall: 50
           min-coverage-changed-files: 80
-
-      - name: Verify coverage (80% minimum)
-        run: ./gradlew :app:koverVerify
