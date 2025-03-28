@@ -21,6 +21,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.adrifernandev.marsroverchallenge.common.presentation.ui.PhonePreviews
 import com.adrifernandev.marsroverchallenge.common.presentation.ui.utils.ContentDescriptionUtils.DECORATIVE_CONTENT
 import com.adrifernandev.marsroverchallenge.designsystem.components.buttons.DSPrimaryButton
+import com.adrifernandev.marsroverchallenge.designsystem.components.spacing.DSSpacer
+import com.adrifernandev.marsroverchallenge.designsystem.components.spacing.SpacerType
 import com.adrifernandev.marsroverchallenge.designsystem.theme.DSTheme
 import com.adrifernandev.marsroverchallenge.domain.models.Direction
 import com.adrifernandev.marsroverchallenge.domain.models.Position
@@ -66,10 +68,9 @@ private fun MainScreenContent(
     val initialRoverDirection = state.initialRover?.currentDirection
     val finalRoverPosition = state.finalRover?.currentPosition
     val finalRoverDirection = state.finalRover?.currentDirection
+    val instructions = state.instructions
 
-    Box(
-        modifier = modifier
-    ) {
+    Box(modifier = modifier) {
         Column(
             modifier = Modifier
                 .padding(DSTheme.spacing.xl)
@@ -84,13 +85,31 @@ private fun MainScreenContent(
                     roverPosition = initialRoverPosition,
                     roverDirection = initialRoverDirection
                 )
+                DSSpacer(
+                    spacing = DSTheme.spacing.large,
+                    type = SpacerType.VERTICAL
+                )
                 RoverPositionInfoModule(
                     text = stringResource(R.string.final_rover_position),
                     roverPosition = finalRoverPosition,
                     roverDirection = finalRoverDirection
                 )
+                DSSpacer(
+                    spacing = DSTheme.spacing.large,
+                    type = SpacerType.VERTICAL
+                )
             } else {
                 RoverPositionInfoNotAvailableModule()
+                DSSpacer(
+                    spacing = DSTheme.spacing.large,
+                    type = SpacerType.VERTICAL
+                )
+            }
+
+            instructions?.let {
+                RoverInstructionsModule(instructions = it)
+            } ?: run {
+                RoverInstructionsNotAvailableModule()
             }
         }
 
@@ -131,9 +150,31 @@ private fun RoverPositionInfoModule(
 }
 
 @Composable
+private fun RoverInstructionsModule(
+    instructions: String
+) {
+    Text(
+        text = "${stringResource(R.string.rover_instructions)}: $instructions",
+        style = MaterialTheme.typography.headlineSmall,
+        fontWeight = FontWeight.Medium,
+        color = MaterialTheme.colorScheme.secondary,
+    )
+}
+
+@Composable
 private fun RoverPositionInfoNotAvailableModule() {
     Text(
         text = stringResource(R.string.rover_position_not_available),
+        style = MaterialTheme.typography.headlineSmall,
+        fontWeight = FontWeight.Medium,
+        color = MaterialTheme.colorScheme.secondary,
+    )
+}
+
+@Composable
+private fun RoverInstructionsNotAvailableModule() {
+    Text(
+        text = stringResource(R.string.rover_instructions_not_available),
         style = MaterialTheme.typography.headlineSmall,
         fontWeight = FontWeight.Medium,
         color = MaterialTheme.colorScheme.secondary,
@@ -161,12 +202,15 @@ private fun MainScreenPreview() {
         currentPosition = Position(1, 3),
         currentDirection = Direction.N
     )
+    val instructions = "LMLMLMLLMM"
+
     DSTheme {
         MainScreenBackground()
         MainScreenContent(
             state = MainViewModel.UIState(
                 initialRover = initialRover,
-                finalRover = finalRover
+                finalRover = finalRover,
+                instructions = instructions,
             ),
             onRequestInstructionsClicked = {}
         )
