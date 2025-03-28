@@ -45,4 +45,5 @@ dependencies {
     ksp(libs.bundles.compilers.ksp.generic)
 
     implementation(project(":designsystem"))
+    implementation(project(":domain"))
 }
