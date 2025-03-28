@@ -40,4 +40,6 @@ android {
 dependencies {
     implementation(libs.bundles.layer.presentation)
     implementation(platform(libs.androidx.compose.bom))
+
+    implementation(project(":common:presentation"))
 }

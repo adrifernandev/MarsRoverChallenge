@@ -46,4 +46,5 @@ dependencies {
 
     implementation(project(":designsystem"))
     implementation(project(":domain"))
+    implementation(project(":common:presentation"))
 }
