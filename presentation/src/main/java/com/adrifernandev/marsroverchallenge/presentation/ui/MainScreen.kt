@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,8 +14,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.adrifernandev.marsroverchallenge.designsystem.components.buttons.DSPrimaryButton
+import com.adrifernandev.marsroverchallenge.designsystem.theme.DSTheme
 import com.adrifernandev.marsroverchallenge.presentation.R
 import com.adrifernandev.marsroverchallenge.presentation.viewmodel.MainViewModel
 
@@ -70,14 +71,15 @@ private fun MainScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 24.dp), //TODO: Replace it with DS values
+                .padding(DSTheme.spacing.xl),
             verticalArrangement = Arrangement.Bottom
         ) {
-            Button(
+            DSPrimaryButton(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                buttonText = "Move rover",
                 onClick = onRequestInstructionsClicked
-            ) {
-                Text("Request Instructions")
-            }
+            )
         }
     }
 }
