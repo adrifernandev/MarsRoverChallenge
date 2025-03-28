@@ -7,10 +7,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.adrifernandev.marsroverchallenge.presentation.viewmodel.MainViewModel
 
 @Composable
 fun MainScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel
 ) {
     Scaffold(
         modifier = modifier
