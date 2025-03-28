@@ -16,6 +16,8 @@ androidx-arch-testing = "2.2.0"
 org-robolectric = "4.12.2"
 mockitoKotlin = "5.3.1"
 io-mockk = "1.13.12"
+androidxNavigationCompose = "2.8.9"
+kotlinxSerialization = "1.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +42,8 @@ io-mockk = { module = "io.mockk:mockk", version.ref = "io-mockk" }
 kotlin-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigationCompose" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -60,6 +64,8 @@ layer-presentation = [
     "androidx-ui-tooling-preview",
     "androidx-material3",
     "material",
+    "androidx-navigation-compose",
+    "kotlinx-serialization-json"
 ]
 
 testing-instrumentation = [
