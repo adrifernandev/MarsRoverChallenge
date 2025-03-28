@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.adrifernandev.marsroverchallenge.common.presentation.ui.utils.ContentDescriptionUtils.DECORATIVE_CONTENT
 import com.adrifernandev.marsroverchallenge.designsystem.components.buttons.DSPrimaryButton
 import com.adrifernandev.marsroverchallenge.designsystem.theme.DSTheme
 import com.adrifernandev.marsroverchallenge.presentation.R
@@ -89,7 +90,7 @@ private fun MainScreenBackground() {
     Image(
         modifier = Modifier.fillMaxSize(),
         painter = painterResource(R.drawable.img_mars_surface),
-        contentDescription = null, //TODO: Implement val for decorative content
+        contentDescription = DECORATIVE_CONTENT,
         contentScale = ContentScale.Crop
     )
 }
