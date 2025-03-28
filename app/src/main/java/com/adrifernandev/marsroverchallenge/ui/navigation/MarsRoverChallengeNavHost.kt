@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 
 @Composable
 fun MarsRoverChallengeNavHost(
@@ -22,6 +24,14 @@ fun MarsRoverChallengeNavHost(
             startDestination = NavigationRoutes.MainGraph
         ) {
 
+            //Main Graph
+            navigation<NavigationRoutes.MainGraph>(
+                startDestination = NavigationRoutes.Main
+            ) {
+                composable<NavigationRoutes.Main> {
+
+                }
+            }
         }
     }
 }
