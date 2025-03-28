@@ -42,28 +42,23 @@ class MainViewModel @Inject constructor(
 
     private fun onRequestRoverInstructions() {
         viewModelScope.launch {
-            setLoadingState(true)
+            _uiState.value = _uiState.value.copy(isLoading = true)
             navigateRoverUseCase().collectLatest { result ->
                 result.onSuccess {
                     val roverNavigationResult = it
                     _uiState.value = _uiState.value.copy(
                         initialRover = roverNavigationResult.initialRover,
                         instructions = roverNavigationResult.instructions.toCommandString(),
-                        finalRover = roverNavigationResult.finalRover
+                        finalRover = roverNavigationResult.finalRover,
+                        isLoading = false
                     )
                 }.onFailure { error ->
                     _uiState.value = _uiState.value.copy(
-                        error = error.message
+                        error = error.message,
+                        isLoading = false
                     )
                 }
             }
-            setLoadingState(false)
         }
-    }
-
-    private fun setLoadingState(state: Boolean) {
-        _uiState.value = _uiState.value.copy(
-            isLoading = state
-        )
     }
 }
