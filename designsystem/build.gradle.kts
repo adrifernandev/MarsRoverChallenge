@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = Versions.APPLICATION_ID
+    namespace = "${Versions.APPLICATION_ID}.designsystem"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
@@ -40,4 +40,6 @@ android {
 dependencies {
     implementation(libs.bundles.layer.presentation)
     implementation(platform(libs.androidx.compose.bom))
+
+    implementation(project(":common:presentation"))
 }

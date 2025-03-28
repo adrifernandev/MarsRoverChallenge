@@ -1,11 +1,13 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.kover)
 }
 
 android {
-    namespace = Versions.APPLICATION_ID
+    namespace = "${Versions.APPLICATION_ID}.domain"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
@@ -34,5 +36,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.bundles.layer.domain)
+    ksp(libs.bundles.compilers.ksp.generic)
+
     testImplementation(libs.bundles.testing.unit)
 }

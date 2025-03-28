@@ -24,3 +24,13 @@ data class Instructions(val commands: List<Instruction>) {
         }
     }
 }
+
+fun Instructions.toCommandString(): String {
+    return commands.joinToString("") { instruction ->
+        when (instruction) {
+            is Instruction.RotateLeft -> "L"
+            is Instruction.RotateRight -> "R"
+            is Instruction.MoveForward -> "M"
+        }
+    }
+}

@@ -1,6 +1,6 @@
 [versions]
-agp = "8.8.2"
-kotlin = "2.0.0"
+agp = "8.7.3"
+kotlin = "2.0.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -16,6 +16,13 @@ androidx-arch-testing = "2.2.0"
 org-robolectric = "4.12.2"
 mockitoKotlin = "5.3.1"
 io-mockk = "1.13.12"
+androidxNavigationCompose = "2.8.9"
+kotlinxSerialization = "1.7.1"
+hilt = "2.51.1"
+hiltCompose = "1.2.0"
+ksp = "2.0.20-1.0.24"
+kotlinxCoroutinesTest = "1.8.1"
+turbine = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,14 +47,26 @@ io-mockk = { module = "io.mockk:mockk", version.ref = "io-mockk" }
 kotlin-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigationCompose" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
+com-google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+com-google-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+com-google-dagger-hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltCompose" }
+
+org-jetbrains-kotlinx-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+
+app-cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 layer-presentation = [
@@ -60,6 +79,30 @@ layer-presentation = [
     "androidx-ui-tooling-preview",
     "androidx-material3",
     "material",
+    "androidx-navigation-compose",
+    "kotlinx-serialization-json",
+    "com-google-dagger-hilt-android",
+    "com-google-dagger-hilt-compose"
+]
+
+layer-domain = [
+    "androidx-core-ktx",
+    "com-google-dagger-hilt-android"
+]
+
+layer-data = [
+    "androidx-core-ktx",
+    "androidx-lifecycle-runtime-ktx",
+    "kotlinx-serialization-json",
+    "com-google-dagger-hilt-android",
+]
+
+compilers-ksp-generic = [
+    "com-google-dagger-hilt-android-compiler",
+]
+
+compilers-ksp-data = [
+    "com-google-dagger-hilt-android-compiler",
 ]
 
 testing-instrumentation = [
@@ -78,4 +121,6 @@ testing-unit = [
     "kotlin-test",
     "androidx-junit",
     "test-junitKtx",
+    "org-jetbrains-kotlinx-kotlinx-coroutines-test",
+    "app-cash-turbine",
 ]

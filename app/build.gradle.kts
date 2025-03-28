@@ -2,8 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.kover)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -77,7 +79,12 @@ kover {
 dependencies {
     implementation(libs.bundles.layer.presentation)
     implementation(platform(libs.androidx.compose.bom))
+    ksp(libs.bundles.compilers.ksp.generic)
 
-    implementation(project(":designsystem"))
     testImplementation(libs.bundles.testing.unit)
+
+    //Modules implementations
+    implementation(project(":common:di"))
+    implementation(project(":designsystem"))
+    implementation(project(":presentation"))
 }
