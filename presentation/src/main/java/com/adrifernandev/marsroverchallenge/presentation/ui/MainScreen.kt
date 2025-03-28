@@ -78,7 +78,7 @@ private fun MainScreenContent(
             DSPrimaryButton(
                 modifier = Modifier
                     .fillMaxWidth(),
-                buttonText = "Move rover",
+                buttonText = "Move rover", //TODO: Replace hardcoded with strings
                 onClick = onRequestInstructionsClicked
             )
         }
