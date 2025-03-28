@@ -17,7 +17,7 @@ private val grey200 = Color(0xFFE0E0E0)
 
 val dsDarkColorScheme = darkColorScheme(
     primary = seatCodeGreen,
-    onPrimary = white,
+    onPrimary = black,
     primaryContainer = black,
     onPrimaryContainer = white,
     secondary = white,
@@ -32,7 +32,7 @@ val dsDarkColorScheme = darkColorScheme(
 
 val dsLightColorScheme = lightColorScheme(
     primary = seatCodeGreen,
-    onPrimary = white,
+    onPrimary = black,
     primaryContainer = white,
     onPrimaryContainer = black,
     secondary = white,

@@ -44,7 +44,7 @@ private fun DSBaseButton(
         ) {
             Text(
                 text = buttonText,
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.headlineSmall
             )
         }
     }
@@ -61,8 +61,8 @@ fun DSPrimaryButton(
         modifier = modifier,
         buttonText = buttonText,
         buttonColors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         enabled = enabled,
         onClick = onClick
