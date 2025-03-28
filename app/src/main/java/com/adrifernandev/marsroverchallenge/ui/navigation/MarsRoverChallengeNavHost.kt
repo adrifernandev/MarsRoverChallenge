@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.adrifernandev.marsroverchallenge.presentation.ui.MainScreen
 
 @Composable
 fun MarsRoverChallengeNavHost(
@@ -29,7 +30,7 @@ fun MarsRoverChallengeNavHost(
                 startDestination = NavigationRoutes.Main
             ) {
                 composable<NavigationRoutes.Main> {
-
+                    MainScreen()
                 }
             }
         }
