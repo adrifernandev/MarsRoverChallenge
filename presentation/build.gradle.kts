@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.kover)
 }
 
@@ -26,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Versions.JVM_TARGET
     }
     buildFeatures {
         compose = true
@@ -40,6 +42,7 @@ android {
 dependencies {
     implementation(libs.bundles.layer.presentation)
     implementation(platform(libs.androidx.compose.bom))
+    ksp(libs.bundles.compilers.ksp.generic)
 
     implementation(project(":designsystem"))
 }
