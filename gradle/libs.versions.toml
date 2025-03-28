@@ -79,6 +79,11 @@ layer-presentation = [
     "com-google-dagger-hilt-compose"
 ]
 
+layer-domain = [
+    "androidx-core-ktx",
+    "com-google-dagger-hilt-android"
+]
+
 compilers-ksp-generic = [
     "com-google-dagger-hilt-android-compiler",
 ]
