@@ -84,6 +84,7 @@ dependencies {
     testImplementation(libs.bundles.testing.unit)
 
     //Modules implementations
+    implementation(project(":common:di"))
     implementation(project(":designsystem"))
     implementation(project(":presentation"))
 }
