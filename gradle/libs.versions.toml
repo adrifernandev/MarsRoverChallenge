@@ -21,6 +21,7 @@ kotlinxSerialization = "1.7.1"
 hilt = "2.51.1"
 hiltCompose = "1.2.0"
 ksp = "2.0.20-1.0.24"
+kotlinxCoroutinesTest = "1.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +52,8 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 com-google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 com-google-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 com-google-dagger-hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltCompose" }
+
+org-jetbrains-kotlinx-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -115,4 +118,5 @@ testing-unit = [
     "kotlin-test",
     "androidx-junit",
     "test-junitKtx",
+    "org-jetbrains-kotlinx-kotlinx-coroutines-test",
 ]
