@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 fun MainScreen(
     modifier: Modifier = Modifier
 ) {
-
     Scaffold(
         modifier = modifier
     ) { paddingValues ->
@@ -21,17 +20,13 @@ fun MainScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            MainScreenContent(
-                modifier = modifier
-            )
+            MainScreenContent()
         }
     }
 
 }
 
 @Composable
-private fun MainScreenContent(
-    modifier: Modifier = Modifier
-) {
+private fun MainScreenContent() {
     Text("Hello world! I'm Main Screen")
 }
