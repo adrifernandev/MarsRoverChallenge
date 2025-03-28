@@ -23,7 +23,6 @@ fun MainScreen(
             MainScreenContent()
         }
     }
-
 }
 
 @Composable
