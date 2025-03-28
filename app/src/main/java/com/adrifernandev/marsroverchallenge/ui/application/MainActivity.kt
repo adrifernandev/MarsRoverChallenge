@@ -1,4 +1,4 @@
-package com.adrifernandev.marsroverchallenge
+package com.adrifernandev.marsroverchallenge.ui.application
 
 import android.graphics.Color.TRANSPARENT
 import android.os.Bundle
