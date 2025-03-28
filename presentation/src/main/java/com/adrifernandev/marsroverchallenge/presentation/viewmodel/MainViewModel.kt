@@ -2,8 +2,8 @@ package com.adrifernandev.marsroverchallenge.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.adrifernandev.marsroverchallenge.domain.models.Instructions
 import com.adrifernandev.marsroverchallenge.domain.models.Rover
+import com.adrifernandev.marsroverchallenge.domain.models.toCommandString
 import com.adrifernandev.marsroverchallenge.domain.usecases.NavigateRoverUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(
 
     data class UIState(
         val initialRover: Rover? = null,
-        val instructions: Instructions? = null,
+        val instructions: String? = null,
         val finalRover: Rover? = null,
         val isLoading: Boolean = false,
         val error: String? = null
@@ -48,7 +48,7 @@ class MainViewModel @Inject constructor(
                 with(roverNavigationResult) {
                     _uiState.value = _uiState.value.copy(
                         initialRover = this.initialRover,
-                        instructions = this.instructions,
+                        instructions = this.instructions.toCommandString(),
                         finalRover = this.finalRover
                     )
                 }
