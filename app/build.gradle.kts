@@ -79,6 +79,9 @@ dependencies {
     implementation(libs.bundles.layer.presentation)
     implementation(platform(libs.androidx.compose.bom))
 
-    implementation(project(":designsystem"))
     testImplementation(libs.bundles.testing.unit)
+
+    //Modules implementations
+    implementation(project(":designsystem"))
+    implementation(project(":presentation"))
 }
