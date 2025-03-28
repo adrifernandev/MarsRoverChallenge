@@ -10,9 +10,8 @@ import com.adrifernandev.marsroverchallenge.domain.repository.RoverRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import javax.inject.Inject
 
-class RoverRepositoryImpl @Inject constructor() : RoverRepository {
+class RoverRepositoryImpl : RoverRepository {
 
     override fun getRoverInstructions(): Flow<Result<RoverInput>> = channelFlow {
         delay(1000) //TODO: Simulating network delay
