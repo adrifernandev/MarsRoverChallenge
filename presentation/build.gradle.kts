@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = Versions.APPLICATION_ID
+    namespace = "${Versions.APPLICATION_ID}.presentation"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {

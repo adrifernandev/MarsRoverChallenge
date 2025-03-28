@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = Versions.APPLICATION_ID
+    namespace = "${Versions.APPLICATION_ID}.data"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {

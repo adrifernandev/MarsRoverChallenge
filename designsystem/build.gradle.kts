@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = Versions.APPLICATION_ID
+    namespace = "${Versions.APPLICATION_ID}.designsystem"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
