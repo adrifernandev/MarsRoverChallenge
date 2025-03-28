@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import com.adrifernandev.marsroverchallenge.R
+import com.adrifernandev.marsroverchallenge.designsystem.R
 
 @Composable
 private fun robotoFontFamily() = FontFamily(
