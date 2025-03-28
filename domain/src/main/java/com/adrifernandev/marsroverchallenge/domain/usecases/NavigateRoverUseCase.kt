@@ -6,24 +6,44 @@ import com.adrifernandev.marsroverchallenge.domain.models.Instructions
 import com.adrifernandev.marsroverchallenge.domain.models.Plateau
 import com.adrifernandev.marsroverchallenge.domain.models.Position
 import com.adrifernandev.marsroverchallenge.domain.models.Rover
+import com.adrifernandev.marsroverchallenge.domain.models.RoverInput
+import com.adrifernandev.marsroverchallenge.domain.models.RoverNavigationResult
 
 class NavigateRoverUseCase {
 
-    operator fun invoke(
-        rover: Rover,
-        plateau: Plateau,
-        instructions: Instructions
-    ): Rover {
-        var currentRover = rover
-        instructions.commands.forEach { instruction ->
+    operator fun invoke(): RoverNavigationResult {
+        val input = RoverInput(
+            plateau = Plateau(
+                topRightCornerPosition = Position(
+                    x = 5,
+                    y = 5
+                )
+            ),
+            initialRover = Rover(
+                currentPosition = Position(
+                    x = 1,
+                    y = 2
+                ),
+                currentDirection = Direction.N
+            ),
+            instructions = Instructions.fromString("LMLMLMLMM")
+        ) //TODO: Currently mocked for testing purposes, replace with Repository
+
+        var currentRover = input.initialRover
+
+        input.instructions.commands.forEach { instruction ->
             currentRover = when (instruction) {
                 is Instruction.RotateLeft -> rotateLeft(currentRover)
                 is Instruction.RotateRight -> rotateRight(currentRover)
-                is Instruction.MoveForward -> moveForward(currentRover, plateau)
+                is Instruction.MoveForward -> moveForward(currentRover, input.plateau)
             }
         }
 
-        return currentRover
+        return RoverNavigationResult(
+            initialRover = input.initialRover,
+            instructions = input.instructions,
+            finalRover = currentRover
+        )
     }
 
     private fun rotateLeft(rover: Rover): Rover {
