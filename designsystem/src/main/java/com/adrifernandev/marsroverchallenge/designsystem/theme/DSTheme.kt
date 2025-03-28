@@ -6,7 +6,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
+
+val LocalDSSpacing = staticCompositionLocalOf {
+    DSSpacing()
+}
+
+val LocalDSElevations = staticCompositionLocalOf {
+    DSElevations()
+}
 
 @Composable
 fun DSTheme(
@@ -34,4 +43,15 @@ fun DSTheme(
         typography = dsTypography(),
         content = content
     )
+}
+
+object DSTheme {
+
+    val spacing: DSSpacing
+        @Composable
+        get() = LocalDSSpacing.current
+
+    val elevations: DSElevations
+        @Composable
+        get() = LocalDSElevations.current
 }
