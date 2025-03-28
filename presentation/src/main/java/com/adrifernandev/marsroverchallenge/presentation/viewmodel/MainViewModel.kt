@@ -24,8 +24,20 @@ class MainViewModel @Inject constructor(
         val error: String? = null
     )
 
+    sealed class UIEvent {
+        data object OnRequestRoverInstructions : UIEvent()
+    }
+
     private val _uiState = MutableStateFlow(UIState())
     val uiState = _uiState.asStateFlow()
+
+    fun onEvent(event: UIEvent) {
+        when (event) {
+            is UIEvent.OnRequestRoverInstructions -> {
+                onRequestRoverInstructions()
+            }
+        }
+    }
 
     private fun onRequestRoverInstructions() {
         viewModelScope.launch {
