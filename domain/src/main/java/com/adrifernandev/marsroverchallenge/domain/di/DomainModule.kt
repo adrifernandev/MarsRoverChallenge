@@ -1,5 +1,6 @@
 package com.adrifernandev.marsroverchallenge.domain.di
 
+import com.adrifernandev.marsroverchallenge.domain.repository.RoverRepository
 import com.adrifernandev.marsroverchallenge.domain.usecases.NavigateRoverUseCase
 import dagger.Module
 import dagger.Provides
@@ -13,7 +14,9 @@ object DomainModule {
 
     @Provides
     @Singleton
-    fun provideNavigateRoverUseCase(): NavigateRoverUseCase {
-        return NavigateRoverUseCase()
+    fun provideNavigateRoverUseCase(
+        roverRepository: RoverRepository
+    ): NavigateRoverUseCase {
+        return NavigateRoverUseCase(roverRepository)
     }
 }
