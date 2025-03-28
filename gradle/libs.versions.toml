@@ -84,7 +84,18 @@ layer-domain = [
     "com-google-dagger-hilt-android"
 ]
 
+layer-data = [
+    "androidx-core-ktx",
+    "androidx-lifecycle-runtime-ktx",
+    "kotlinx-serialization-json",
+    "com-google-dagger-hilt-android",
+]
+
 compilers-ksp-generic = [
+    "com-google-dagger-hilt-android-compiler",
+]
+
+compilers-ksp-data = [
     "com-google-dagger-hilt-android-compiler",
 ]
 
