@@ -1,6 +1,6 @@
 package com.adrifernandev.marsroverchallenge.ui.navigation
 
-import androidx.compose.foundation.layout.padding
+import android.annotation.SuppressLint
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,6 +12,7 @@ import androidx.navigation.compose.navigation
 import com.adrifernandev.marsroverchallenge.presentation.ui.MainScreen
 import com.adrifernandev.marsroverchallenge.presentation.viewmodel.MainViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MarsRoverChallengeNavHost(
     modifier: Modifier = Modifier,
@@ -20,10 +21,9 @@ fun MarsRoverChallengeNavHost(
 ) {
     Scaffold(
         modifier = modifier
-    ) { paddingValues ->
+    ) { _ ->
         NavHost(
-            modifier = modifier
-                .padding(paddingValues),
+            modifier = modifier,
             navController = navController,
             startDestination = NavigationRoutes.MainGraph
         ) {
