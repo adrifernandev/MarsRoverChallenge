@@ -18,7 +18,9 @@ mockitoKotlin = "5.3.1"
 io-mockk = "1.13.12"
 androidxNavigationCompose = "2.8.9"
 kotlinxSerialization = "1.7.1"
-appcompat = "1.7.0"
+hilt = "2.51.1"
+hiltCompose = "1.2.0"
+ksp = "2.0.20-1.0.24"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,16 +47,20 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigationCompose" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+
+com-google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+com-google-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+com-google-dagger-hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltCompose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 layer-presentation = [
@@ -68,7 +74,10 @@ layer-presentation = [
     "androidx-material3",
     "material",
     "androidx-navigation-compose",
-    "kotlinx-serialization-json"
+    "kotlinx-serialization-json",
+    "com-google-dagger-hilt-android",
+    "com-google-dagger-hilt-android-compiler",
+    "com-google-dagger-hilt-compose"
 ]
 
 testing-instrumentation = [
