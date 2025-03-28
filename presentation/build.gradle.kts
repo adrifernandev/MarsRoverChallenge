@@ -44,6 +44,8 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     ksp(libs.bundles.compilers.ksp.generic)
 
+    testImplementation(libs.bundles.testing.unit)
+
     implementation(project(":designsystem"))
     implementation(project(":domain"))
     implementation(project(":common:presentation"))

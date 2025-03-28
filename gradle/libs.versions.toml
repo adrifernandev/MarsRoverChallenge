@@ -22,6 +22,7 @@ hilt = "2.51.1"
 hiltCompose = "1.2.0"
 ksp = "2.0.20-1.0.24"
 kotlinxCoroutinesTest = "1.8.1"
+turbine = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,8 @@ com-google-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-and
 com-google-dagger-hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltCompose" }
 
 org-jetbrains-kotlinx-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+
+app-cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -119,4 +122,5 @@ testing-unit = [
     "androidx-junit",
     "test-junitKtx",
     "org-jetbrains-kotlinx-kotlinx-coroutines-test",
+    "app-cash-turbine",
 ]
