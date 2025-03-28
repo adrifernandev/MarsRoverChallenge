@@ -1,4 +1,4 @@
-package com.adrifernandev.marsroverchallenge.domain.model
+package com.adrifernandev.marsroverchallenge.domain.models
 
 data class Rover(
     val currentPosition: Position,

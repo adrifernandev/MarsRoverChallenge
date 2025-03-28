@@ -1,4 +1,4 @@
-package com.adrifernandev.marsroverchallenge.domain.model
+package com.adrifernandev.marsroverchallenge.domain.models
 
 sealed class Instruction {
     data object RotateLeft : Instruction()
