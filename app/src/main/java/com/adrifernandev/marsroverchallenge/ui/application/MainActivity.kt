@@ -7,6 +7,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.adrifernandev.marsroverchallenge.designsystem.theme.DSTheme
+import com.adrifernandev.marsroverchallenge.ui.navigation.MarsRoverChallengeApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DSTheme {
-
+                MarsRoverChallengeApp()
             }
         }
     }
