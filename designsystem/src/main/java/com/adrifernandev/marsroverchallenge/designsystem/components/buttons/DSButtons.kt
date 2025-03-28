@@ -44,7 +44,7 @@ private fun DSBaseButton(
         ) {
             Text(
                 text = buttonText,
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.bodyLarge
             )
         }
     }
