@@ -8,6 +8,7 @@ import com.adrifernandev.marsroverchallenge.domain.usecases.NavigateRoverUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,21 +42,20 @@ class MainViewModel @Inject constructor(
 
     private fun onRequestRoverInstructions() {
         viewModelScope.launch {
-            try {
-                setLoadingState(true)
-                val roverNavigationResult = navigateRoverUseCase()
-
-                with(roverNavigationResult) {
+            setLoadingState(true)
+            navigateRoverUseCase().collectLatest { result ->
+                result.onSuccess {
+                    val roverNavigationResult = it
                     _uiState.value = _uiState.value.copy(
-                        initialRover = this.initialRover,
-                        instructions = this.instructions.toCommandString(),
-                        finalRover = this.finalRover
+                        initialRover = roverNavigationResult.initialRover,
+                        instructions = roverNavigationResult.instructions.toCommandString(),
+                        finalRover = roverNavigationResult.finalRover
+                    )
+                }.onFailure { error ->
+                    _uiState.value = _uiState.value.copy(
+                        error = error.message
                     )
                 }
-            } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    error = e.message
-                )
             }
             setLoadingState(false)
         }
