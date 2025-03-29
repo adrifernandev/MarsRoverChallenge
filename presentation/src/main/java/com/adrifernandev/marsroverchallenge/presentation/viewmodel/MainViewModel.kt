@@ -6,7 +6,9 @@ import com.adrifernandev.marsroverchallenge.domain.models.Rover
 import com.adrifernandev.marsroverchallenge.domain.models.toCommandString
 import com.adrifernandev.marsroverchallenge.domain.usecases.NavigateRoverUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -30,8 +32,16 @@ class MainViewModel @Inject constructor(
         data object OnRequestRoverInstructions : UIEvent()
     }
 
+    sealed class UIAction {
+        data object ShowError : UIAction()
+    }
+
     private val _uiState = MutableStateFlow(UIState())
     val uiState = _uiState.asStateFlow()
+
+    private val _uiAction: MutableSharedFlow<UIAction> =
+        MutableSharedFlow()
+    val uiAction = _uiAction.asSharedFlow()
 
     fun onEvent(event: UIEvent) {
         when (event) {
@@ -58,7 +68,7 @@ class MainViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(isLoading = false)
                     }
-                    // TODO: Handle error state
+                    _uiAction.emit(UIAction.ShowError)
                 }
             }
         }
