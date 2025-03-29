@@ -1,5 +1,6 @@
 package com.adrifernandev.marsroverchallenge.presentation.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +38,7 @@ import com.adrifernandev.marsroverchallenge.domain.models.Rover
 import com.adrifernandev.marsroverchallenge.presentation.R
 import com.adrifernandev.marsroverchallenge.presentation.viewmodel.MainViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
@@ -45,19 +48,14 @@ fun MainScreen(
 
     Scaffold(
         modifier = modifier
-    ) { paddingValues ->
+    ) { _ ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            MainScreenBackground(
-                modifier = Modifier
-                    .fillMaxSize()
-            )
             MainScreenContent(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
+                    .fillMaxSize(),
                 state = state,
                 onRequestInstructionsClicked = {
                     viewModel.onEvent(MainViewModel.UIEvent.OnRequestRoverInstructions)
@@ -79,79 +77,86 @@ private fun MainScreenContent(
     val finalRoverDirection = state.finalRover?.currentDirection
     val instructions = state.instructions
 
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        Box(
+    Box {
+        MainScreenBackground(
             modifier = Modifier
-                .clip(
-                    RoundedCornerShape(
-                        DSTheme.border.radius.xl,
-                        DSTheme.border.radius.xl,
-                        0.dp,
-                        0.dp
-                    )
-                )
-                .background(MaterialTheme.colorScheme.primaryContainer)
+                .fillMaxSize()
+        )
+        Column(
+            modifier = modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom
         ) {
-            Column(
+            Box(
                 modifier = Modifier
-                    .padding(DSTheme.spacing.xl)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    val initialRoverPositionText = initialRoverPosition?.let {
-                        stringResource(
-                            R.string.rover_position,
-                            it.x,
-                            it.y,
-                            initialRoverDirection?.name ?: ""
+                    .clip(
+                        RoundedCornerShape(
+                            DSTheme.border.radius.xl,
+                            DSTheme.border.radius.xl,
+                            0.dp,
+                            0.dp
                         )
-                    }
-                    RoverInfoModule(
-                        modifier = Modifier.weight(1f),
-                        title = stringResource(R.string.initial_rover_position),
-                        content = initialRoverPositionText,
-                        horizontalAlignment = Alignment.Start
                     )
-                    val finalRoverPositionText = finalRoverPosition?.let {
-                        stringResource(
-                            R.string.rover_position,
-                            it.x,
-                            it.y,
-                            finalRoverDirection?.name ?: ""
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(DSTheme.spacing.xl)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        val initialRoverPositionText = initialRoverPosition?.let {
+                            stringResource(
+                                R.string.rover_position,
+                                it.x,
+                                it.y,
+                                initialRoverDirection?.name ?: ""
+                            )
+                        }
+                        RoverInfoModule(
+                            modifier = Modifier.weight(1f),
+                            title = stringResource(R.string.initial_rover_position),
+                            content = initialRoverPositionText,
+                            horizontalAlignment = Alignment.Start
+                        )
+                        val finalRoverPositionText = finalRoverPosition?.let {
+                            stringResource(
+                                R.string.rover_position,
+                                it.x,
+                                it.y,
+                                finalRoverDirection?.name ?: ""
+                            )
+                        }
+                        RoverInfoModule(
+                            modifier = Modifier.weight(1f),
+                            title = stringResource(R.string.final_rover_position),
+                            content = finalRoverPositionText,
+                            horizontalAlignment = Alignment.End
                         )
                     }
+                    DSSpacer(
+                        spacing = DSTheme.spacing.large,
+                        type = SpacerType.VERTICAL
+                    )
                     RoverInfoModule(
-                        modifier = Modifier.weight(1f),
-                        title = stringResource(R.string.final_rover_position),
-                        content = finalRoverPositionText,
-                        horizontalAlignment = Alignment.End
+                        title = stringResource(R.string.rover_instructions),
+                        content = instructions,
+                    )
+                    DSSpacer(
+                        spacing = DSTheme.spacing.large,
+                        type = SpacerType.VERTICAL
+                    )
+                    DSPrimaryButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .navigationBarsPadding(),
+                        buttonText = stringResource(R.string.request_rover_instructions),
+                        onClick = onRequestInstructionsClicked
                     )
                 }
-                DSSpacer(
-                    spacing = DSTheme.spacing.large,
-                    type = SpacerType.VERTICAL
-                )
-                RoverInfoModule(
-                    title = stringResource(R.string.rover_instructions),
-                    content = instructions,
-                )
-                DSSpacer(
-                    spacing = DSTheme.spacing.large,
-                    type = SpacerType.VERTICAL
-                )
-                DSPrimaryButton(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    buttonText = stringResource(R.string.request_rover_instructions),
-                    onClick = onRequestInstructionsClicked
-                )
             }
         }
     }
@@ -211,7 +216,7 @@ private fun MainScreenBackground(
 
 @PhonePreviews
 @Composable
-private fun MainScreenPreview() {
+private fun MainScreenPreviewWithInfo() {
     val initialRover = Rover(
         currentPosition = Position(1, 2),
         currentDirection = Direction.N
@@ -221,6 +226,29 @@ private fun MainScreenPreview() {
         currentDirection = Direction.N
     )
     val instructions = "LMLMLMLLMM"
+
+    DSTheme {
+        MainScreenBackground(
+            modifier = Modifier
+                .fillMaxSize()
+        )
+        MainScreenContent(
+            state = MainViewModel.UIState(
+                initialRover = initialRover,
+                finalRover = finalRover,
+                instructions = instructions,
+            ),
+            onRequestInstructionsClicked = {}
+        )
+    }
+}
+
+@PhonePreviews
+@Composable
+private fun MainScreenPreviewWithoutInfo() {
+    val initialRover = null
+    val finalRover = null
+    val instructions = null
 
     DSTheme {
         MainScreenBackground(
