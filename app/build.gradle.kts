@@ -87,4 +87,8 @@ dependencies {
     implementation(project(":common:di"))
     implementation(project(":designsystem"))
     implementation(project(":presentation"))
+
+    // Impl for kover merging reports on this root module
+    kover(project(":domain"))
+    kover(project(":data"))
 }
