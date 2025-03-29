@@ -1,39 +1,33 @@
 package com.adrifernandev.marsroverchallenge.data.repository
 
-import com.adrifernandev.marsroverchallenge.domain.models.Direction
-import com.adrifernandev.marsroverchallenge.domain.models.Instructions
-import com.adrifernandev.marsroverchallenge.domain.models.Plateau
-import com.adrifernandev.marsroverchallenge.domain.models.Position
-import com.adrifernandev.marsroverchallenge.domain.models.Rover
+import com.adrifernandev.marsroverchallenge.data.datasource.remote.RoverRemoteDataSource
+import com.adrifernandev.marsroverchallenge.data.mapper.toDomain
 import com.adrifernandev.marsroverchallenge.domain.models.RoverInput
 import com.adrifernandev.marsroverchallenge.domain.repository.RoverRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
-class RoverRepositoryImpl : RoverRepository {
+class RoverRepositoryImpl @Inject constructor(
+    private val roverRemoteDataSource: RoverRemoteDataSource
+) : RoverRepository {
 
     override fun getRoverInstructions(): Flow<Result<RoverInput>> = channelFlow {
-        delay(1000) //TODO: Simulating network delay
-        send(
-            Result.success(
-                RoverInput(
-                    plateau = Plateau(
-                        topRightCornerPosition = Position(
-                            x = 5,
-                            y = 5
+        roverRemoteDataSource.getRoverInput()
+            .collectLatest { roverInputResult ->
+                roverInputResult.fold(
+                    onSuccess = { roverInput ->
+                        send(
+                            Result.success(
+                                roverInput.toDomain()
+                            )
                         )
-                    ),
-                    initialRover = Rover(
-                        currentPosition = Position(
-                            x = 1,
-                            y = 2
-                        ),
-                        currentDirection = Direction.N
-                    ),
-                    instructions = Instructions.fromString("LMLMLMLMM")
+                    },
+                    onFailure = { error ->
+                        send(Result.failure(error))
+                    }
                 )
-            )
-        )
+            }
     }
 }
