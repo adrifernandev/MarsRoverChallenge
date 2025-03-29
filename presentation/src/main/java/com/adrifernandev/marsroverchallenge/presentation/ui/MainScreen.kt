@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -42,6 +44,7 @@ import com.adrifernandev.marsroverchallenge.domain.models.Direction
 import com.adrifernandev.marsroverchallenge.domain.models.Position
 import com.adrifernandev.marsroverchallenge.domain.models.Rover
 import com.adrifernandev.marsroverchallenge.presentation.R
+import com.adrifernandev.marsroverchallenge.presentation.ui.components.PlateauGrid
 import com.adrifernandev.marsroverchallenge.presentation.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -96,6 +99,17 @@ private fun MainScreenContent(
         MainScreenBackground(
             modifier = Modifier
                 .fillMaxSize()
+        )
+        PlateauGrid(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .padding(vertical = DSTheme.spacing.medium)
+                .aspectRatio(1f)
+                .align(Alignment.TopCenter),
+            plateau = state.plateau,
+            initialRoverPosition = initialRoverPosition,
+            finalRoverPosition = finalRoverPosition
         )
         Column(
             modifier = modifier
@@ -229,6 +243,28 @@ private fun MainScreenBackground(
     )
 }
 
+@Composable
+private fun ProcessActions(
+    uiAction: SharedFlow<MainViewModel.UIAction>,
+    snackbarHostState: SnackbarHostState
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val errorMessage = stringResource(R.string.generic_error_message)
+    ObserveAsEvents(uiAction) { action ->
+        when (action) {
+            is MainViewModel.UIAction.ShowError -> {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = errorMessage,
+                        withDismissAction = true,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
+        }
+    }
+}
+
 @PhonePreviews
 @Composable
 private fun MainScreenPreviewWithInfo() {
@@ -255,28 +291,6 @@ private fun MainScreenPreviewWithInfo() {
             ),
             onRequestInstructionsClicked = {}
         )
-    }
-}
-
-@Composable
-private fun ProcessActions(
-    uiAction: SharedFlow<MainViewModel.UIAction>,
-    snackbarHostState: SnackbarHostState
-) {
-    val coroutineScope = rememberCoroutineScope()
-    val errorMessage = stringResource(R.string.generic_error_message)
-    ObserveAsEvents(uiAction) { action ->
-        when (action) {
-            is MainViewModel.UIAction.ShowError -> {
-                coroutineScope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = errorMessage,
-                        withDismissAction = true,
-                        duration = SnackbarDuration.Short
-                    )
-                }
-            }
-        }
     }
 }
 
