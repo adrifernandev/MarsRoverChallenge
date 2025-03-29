@@ -3,6 +3,7 @@ package com.adrifernandev.marsroverchallenge.presentation.viewmodel
 import app.cash.turbine.test
 import com.adrifernandev.marsroverchallenge.domain.models.Direction
 import com.adrifernandev.marsroverchallenge.domain.models.Instructions
+import com.adrifernandev.marsroverchallenge.domain.models.Plateau
 import com.adrifernandev.marsroverchallenge.domain.models.Position
 import com.adrifernandev.marsroverchallenge.domain.models.Rover
 import com.adrifernandev.marsroverchallenge.domain.models.RoverNavigationResult
@@ -46,7 +47,8 @@ class MainViewModelTest {
         val initialRover = Rover(Position(1, 2), Direction.N)
         val finalRover = Rover(Position(1, 3), Direction.N)
         val instructions = Instructions.fromString("LMLMLMLMM")
-        val result = RoverNavigationResult(initialRover, instructions, finalRover)
+        val plateau = Plateau(topRightCornerPosition = Position(5, 5))
+        val result = RoverNavigationResult(initialRover, instructions, finalRover, plateau)
 
         coEvery { navigateRoverUseCase() } returns flowOf(Result.success(result))
 
@@ -66,7 +68,8 @@ class MainViewModelTest {
                     initialRover = initialRover,
                     instructions = "LMLMLMLMM",
                     finalRover = finalRover,
-                    isLoading = false
+                    isLoading = false,
+                    plateau = plateau
                 ),
                 awaitItem()
             )
@@ -76,10 +79,14 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `onRequestRoverInstructions should update uiState with error on failure`() = runTest {
+    fun `onRequestRoverInstructions should update uiState with loading false`() = runTest {
         // Given
         val errorMessage = "error"
-        coEvery { navigateRoverUseCase() } returns flowOf(Result.failure(Exception(errorMessage)))
+        coEvery { navigateRoverUseCase() } returns flowOf(
+            Result.failure(
+                Exception(errorMessage)
+            )
+        )
 
         // When
         viewModel.uiState.test {
@@ -94,8 +101,7 @@ class MainViewModelTest {
 
             assertEquals(
                 MainViewModel.UIState(
-                    isLoading = false,
-                    error = errorMessage
+                    isLoading = false
                 ),
                 awaitItem()
             )

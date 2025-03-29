@@ -17,6 +17,10 @@ val LocalDSElevations = staticCompositionLocalOf {
     DSElevations()
 }
 
+val LocalDSBorder = staticCompositionLocalOf {
+    DSBorder()
+}
+
 @Composable
 fun DSTheme(
     isDarkThemeEnabled: Boolean = isSystemInDarkTheme(),
@@ -54,4 +58,8 @@ object DSTheme {
     val elevations: DSElevations
         @Composable
         get() = LocalDSElevations.current
+
+    val border: DSBorder
+        @Composable
+        get() = LocalDSBorder.current
 }

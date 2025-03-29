@@ -3,8 +3,8 @@ package com.adrifernandev.marsroverchallenge.data.datasource.remote.service.gene
 import com.adrifernandev.marsroverchallenge.domain.models.Direction
 
 private const val MIN_POSITION = 0
-private const val MIN_TOP = 5
-private const val MAX_TOP = 10
+private const val MIN_TOP = 4
+private const val MAX_TOP = 8
 private const val MIN_MOVEMENTS = 5
 private const val MAX_MOVEMENTS = 11
 
