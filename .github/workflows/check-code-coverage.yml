@@ -58,7 +58,6 @@ jobs:
             echo "" >> report.md
             echo "⚠️ **Coverage data not found!**" >> report.md
           fi
-          done
 
       - name: Post report as PR comment
         uses: mshick/add-pr-comment@v2
