@@ -1,4 +1,4 @@
-name: Check Tests
+name: Check Code Coverage
 
 on:
   pull_request:
@@ -32,9 +32,12 @@ jobs:
         run: ./gradlew :app:testDebugUnitTest
         continue-on-error: true
 
-      - name: Post test results to PR
+      - name: Generate kover coverage report
+        run: ./gradlew :app:koverXmlReportDebug
+
+      - name: Calculate test results and coverage
         run: |
-          echo "### 📝 Test Report" > report.md
+          echo "### 📝 Test & Coverage Report" > report.md
           echo "" >> report.md
           
           if [[ "${{ steps.run_tests.outcome }}" == "failure" ]]; then
@@ -42,6 +45,36 @@ jobs:
           else
             echo "✅ **All tests passed!**" >> report.md
           fi
+
+          total_covered=$(grep -oP '(?<=covered=")\d+' app/build/reports/kover/reportDebug.xml | paste -sd+ | bc)
+          total_missed=$(grep -oP '(?<=missed=")\d+' app/build/reports/kover/reportDebug.xml | paste -sd+ | bc)
+          total_instructions=$((total_covered + total_missed))
+
+          if [[ $total_instructions -gt 0 ]]; then
+            coverage_percentage=$((100 * total_covered / total_instructions))
+            echo "" >> report.md
+            echo "📊 **Total Code Coverage: $coverage_percentage%**" >> report.md
+          else
+            echo "" >> report.md
+            echo "⚠️ **Coverage data not found!**" >> report.md
+          fi
+
+          echo "" >> report.md
+          echo "📊 **Coverage per Module**" >> report.md
+
+          modules=$(grep -oP '(?<=name=")[^"]+' app/build/reports/kover/reportDebug.xml)
+          for module in $modules; do
+            module_covered=$(grep -oP "(?<=name=\"$module\" covered=\")\d+" app/build/reports/kover/reportDebug.xml)
+            module_missed=$(grep -oP "(?<=name=\"$module\" missed=\")\d+" app/build/reports/kover/reportDebug.xml)
+            module_instructions=$((module_covered + module_missed))
+
+            if [[ $module_instructions -gt 0 ]]; then
+              module_coverage_percentage=$((100 * module_covered / module_instructions))
+              echo "- **$module**: $module_coverage_percentage%" >> report.md
+            else
+              echo "- **$module**: ⚠️ Coverage data not found!" >> report.md
+            fi
+          done
 
       - name: Post report as PR comment
         uses: mshick/add-pr-comment@v2
