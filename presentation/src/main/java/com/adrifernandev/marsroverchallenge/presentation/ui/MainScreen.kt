@@ -1,22 +1,28 @@
 package com.adrifernandev.marsroverchallenge.presentation.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.adrifernandev.marsroverchallenge.common.presentation.ui.PhonePreviews
 import com.adrifernandev.marsroverchallenge.common.presentation.ui.utils.ContentDescriptionUtils.DECORATIVE_CONTENT
@@ -73,92 +79,118 @@ private fun MainScreenContent(
     Box(modifier = modifier) {
         Column(
             modifier = Modifier
-                .padding(DSTheme.spacing.xl)
-        ) {
-            if (initialRoverPosition != null &&
-                finalRoverPosition != null &&
-                initialRoverDirection != null &&
-                finalRoverDirection != null
-            ) {
-                RoverPositionInfoModule(
-                    text = stringResource(R.string.initial_rover_position),
-                    roverPosition = initialRoverPosition,
-                    roverDirection = initialRoverDirection
-                )
-                DSSpacer(
-                    spacing = DSTheme.spacing.large,
-                    type = SpacerType.VERTICAL
-                )
-                RoverPositionInfoModule(
-                    text = stringResource(R.string.final_rover_position),
-                    roverPosition = finalRoverPosition,
-                    roverDirection = finalRoverDirection
-                )
-                DSSpacer(
-                    spacing = DSTheme.spacing.large,
-                    type = SpacerType.VERTICAL
-                )
-            } else {
-                RoverPositionInfoNotAvailableModule()
-                DSSpacer(
-                    spacing = DSTheme.spacing.large,
-                    type = SpacerType.VERTICAL
-                )
-            }
-
-            instructions?.let {
-                RoverInstructionsModule(instructions = it)
-            } ?: run {
-                RoverInstructionsNotAvailableModule()
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(DSTheme.spacing.xl),
+                .fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ) {
-            DSPrimaryButton(
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                buttonText = stringResource(R.string.request_rover_instructions),
-                onClick = onRequestInstructionsClicked
-            )
+                    .clip(RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp))
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(DSTheme.spacing.xl)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        RoverPositionInfoModule(
+                            modifier = Modifier.weight(1f),
+                            text = stringResource(R.string.initial_rover_position),
+                            roverPosition = initialRoverPosition,
+                            roverDirection = initialRoverDirection,
+                            horizontalAlignment = Alignment.Start
+                        )
+                        RoverPositionInfoModule(
+                            modifier = Modifier.weight(1f),
+                            text = stringResource(R.string.final_rover_position),
+                            roverPosition = finalRoverPosition,
+                            roverDirection = finalRoverDirection,
+                            horizontalAlignment = Alignment.End
+                        )
+                    }
+                    DSSpacer(
+                        spacing = DSTheme.spacing.large,
+                        type = SpacerType.VERTICAL
+                    )
+                    RoverInstructionsModule(instructions)
+                    DSSpacer(
+                        spacing = DSTheme.spacing.large,
+                        type = SpacerType.VERTICAL
+                    )
+                    DSPrimaryButton(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        buttonText = stringResource(R.string.request_rover_instructions),
+                        onClick = onRequestInstructionsClicked
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
 private fun RoverPositionInfoModule(
+    modifier: Modifier = Modifier,
     text: String,
-    roverPosition: Position,
-    roverDirection: Direction
+    roverPosition: Position?,
+    roverDirection: Direction?,
+    horizontalAlignment: Alignment.Horizontal
 ) {
-    val roverPositionText = stringResource(
-        id = R.string.rover_position,
-        roverPosition.x,
-        roverPosition.y,
-        roverDirection.name
-    )
-    Text(
-        text = "$text: $roverPositionText",
-        style = MaterialTheme.typography.headlineSmall,
-        fontWeight = FontWeight.Medium,
-        color = MaterialTheme.colorScheme.secondary,
-    )
+    Column(
+        modifier = modifier,
+        horizontalAlignment = horizontalAlignment
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+        if (roverPosition != null && roverDirection != null) {
+            val roverPositionText = stringResource(
+                id = R.string.rover_position,
+                roverPosition.x,
+                roverPosition.y,
+                roverDirection.name
+            )
+            Text(
+                text = roverPositionText,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        } else {
+            RoverPositionInfoNotAvailableModule()
+        }
+    }
 }
 
 @Composable
 private fun RoverInstructionsModule(
-    instructions: String
+    instructions: String? = null
 ) {
-    Text(
-        text = "${stringResource(R.string.rover_instructions)}: $instructions",
-        style = MaterialTheme.typography.headlineSmall,
-        fontWeight = FontWeight.Medium,
-        color = MaterialTheme.colorScheme.secondary,
-    )
+    Column {
+        Text(
+            text = stringResource(R.string.rover_instructions),
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+        instructions?.let {
+            Text(
+                text = instructions,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        } ?: run {
+            RoverInstructionsNotAvailableModule()
+        }
+    }
 }
 
 @Composable
@@ -167,7 +199,7 @@ private fun RoverPositionInfoNotAvailableModule() {
         text = stringResource(R.string.rover_position_not_available),
         style = MaterialTheme.typography.headlineSmall,
         fontWeight = FontWeight.Medium,
-        color = MaterialTheme.colorScheme.secondary,
+        color = MaterialTheme.colorScheme.onPrimaryContainer,
     )
 }
 
@@ -177,7 +209,7 @@ private fun RoverInstructionsNotAvailableModule() {
         text = stringResource(R.string.rover_instructions_not_available),
         style = MaterialTheme.typography.headlineSmall,
         fontWeight = FontWeight.Medium,
-        color = MaterialTheme.colorScheme.secondary,
+        color = MaterialTheme.colorScheme.onPrimaryContainer,
     )
 }
 
