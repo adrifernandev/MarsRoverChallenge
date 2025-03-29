@@ -10,11 +10,15 @@ import com.adrifernandev.marsroverchallenge.domain.models.Rover
 import com.adrifernandev.marsroverchallenge.domain.models.RoverInput
 
 fun RoverInstructionsDTO.toDomain(): RoverInput {
-    return RoverInput(
-        plateau = this.topRightCorner.toPlateau(),
-        initialRover = toRover(this.roverPosition, this.roverDirection),
-        instructions = Instructions.fromString(this.movements)
-    )
+    return try {
+        RoverInput(
+            plateau = this.topRightCorner.toPlateau(),
+            initialRover = toRover(this.roverPosition, this.roverDirection),
+            instructions = Instructions.fromString(this.movements)
+        )
+    } catch (e: IllegalArgumentException) {
+        throw IllegalArgumentException("Error while mapping to domain model: ${e.message}")
+    }
 }
 
 fun PositionDTO.toPlateau(): Plateau {
