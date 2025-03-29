@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,21 +43,22 @@ class MainViewModel @Inject constructor(
 
     private fun onRequestRoverInstructions() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
+            _uiState.update { it.copy(isLoading = true) }
             navigateRoverUseCase().collectLatest { result ->
-                result.onSuccess {
-                    val roverNavigationResult = it
-                    _uiState.value = _uiState.value.copy(
-                        initialRover = roverNavigationResult.initialRover,
-                        instructions = roverNavigationResult.instructions.toCommandString(),
-                        finalRover = roverNavigationResult.finalRover,
-                        isLoading = false
-                    )
-                }.onFailure { error ->
-                    _uiState.value = _uiState.value.copy(
-                        error = error.message,
-                        isLoading = false
-                    )
+                result.onSuccess { roverNavigationResult ->
+                    _uiState.update {
+                        it.copy(
+                            initialRover = roverNavigationResult.initialRover,
+                            instructions = roverNavigationResult.instructions.toCommandString(),
+                            finalRover = roverNavigationResult.finalRover,
+                            isLoading = false
+                        )
+                    }
+                }.onFailure {
+                    _uiState.update {
+                        it.copy(isLoading = false)
+                    }
+                    // TODO: Handle error state
                 }
             }
         }
