@@ -2,6 +2,7 @@ package com.adrifernandev.marsroverchallenge.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adrifernandev.marsroverchallenge.domain.models.Plateau
 import com.adrifernandev.marsroverchallenge.domain.models.Rover
 import com.adrifernandev.marsroverchallenge.domain.models.toCommandString
 import com.adrifernandev.marsroverchallenge.domain.usecases.NavigateRoverUseCase
@@ -24,6 +25,7 @@ class MainViewModel @Inject constructor(
         val initialRover: Rover? = null,
         val instructions: String? = null,
         val finalRover: Rover? = null,
+        val plateau: Plateau? = null,
         val isLoading: Boolean = false
     )
 
@@ -60,6 +62,7 @@ class MainViewModel @Inject constructor(
                             initialRover = roverNavigationResult.initialRover,
                             instructions = roverNavigationResult.instructions.toCommandString(),
                             finalRover = roverNavigationResult.finalRover,
+                            plateau = roverNavigationResult.plateau,
                             isLoading = false
                         )
                     }
