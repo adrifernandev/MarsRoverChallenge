@@ -58,22 +58,6 @@ jobs:
             echo "" >> report.md
             echo "⚠️ **Coverage data not found!**" >> report.md
           fi
-
-          echo "" >> report.md
-          echo "📊 **Coverage per Module**" >> report.md
-
-          modules=$(grep -oP '(?<=name=")[^"]+' app/build/reports/kover/reportDebug.xml)
-          for module in $modules; do
-            module_covered=$(grep -oP "(?<=name=\"$module\" covered=\")\d+" app/build/reports/kover/reportDebug.xml)
-            module_missed=$(grep -oP "(?<=name=\"$module\" missed=\")\d+" app/build/reports/kover/reportDebug.xml)
-            module_instructions=$((module_covered + module_missed))
-
-            if [[ $module_instructions -gt 0 ]]; then
-              module_coverage_percentage=$((100 * module_covered / module_instructions))
-              echo "- **$module**: $module_coverage_percentage%" >> report.md
-            else
-              echo "- **$module**: ⚠️ Coverage data not found!" >> report.md
-            fi
           done
 
       - name: Post report as PR comment
