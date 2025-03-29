@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rover_position">%1$d X %2$d Y %3$s</string>
+    <string name="initial_rover_position">Position initial du rover</string>
+    <string name="final_rover_position">Position finale du rover</string>
+    <string name="not_available">Non disponible</string>
+    <string name="request_rover_instructions">Demander les instructions du rover</string>
+    <string name="rover_instructions">Instructions</string>
+    <string name="generic_error_message">Une erreur est survenue</string>
+</resources>

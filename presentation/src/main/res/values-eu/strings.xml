@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rover_position">%1$d X %2$d Y %3$s</string>
+    <string name="initial_rover_position">Roverren hasierako posizioa</string>
+    <string name="final_rover_position">Roverren amaierako posizioa</string>
+    <string name="not_available">Ez dago eskuragarri</string>
+    <string name="request_rover_instructions">Eskatu rover instrukzioak</string>
+    <string name="rover_instructions">Instrukzioak</string>
+    <string name="generic_error_message">Errore bat gertatu da</string>
+</resources>
