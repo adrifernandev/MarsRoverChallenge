@@ -14,9 +14,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.adrifernandev.marsroverchallenge.common.presentation.ui.PhonePreviews
 import com.adrifernandev.marsroverchallenge.common.presentation.ui.utils.ContentDescriptionUtils.DECORATIVE_CONTENT
+import com.adrifernandev.marsroverchallenge.common.presentation.ui.utils.ObserveAsEvents
 import com.adrifernandev.marsroverchallenge.designsystem.components.buttons.DSPrimaryButton
 import com.adrifernandev.marsroverchallenge.designsystem.components.spacing.DSSpacer
 import com.adrifernandev.marsroverchallenge.designsystem.components.spacing.SpacerType
@@ -37,6 +43,8 @@ import com.adrifernandev.marsroverchallenge.domain.models.Position
 import com.adrifernandev.marsroverchallenge.domain.models.Rover
 import com.adrifernandev.marsroverchallenge.presentation.R
 import com.adrifernandev.marsroverchallenge.presentation.viewmodel.MainViewModel
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -45,9 +53,16 @@ fun MainScreen(
     viewModel: MainViewModel
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    ProcessActions(
+        uiAction = viewModel.uiAction,
+        snackbarHostState = snackbarHostState
+    )
 
     Scaffold(
-        modifier = modifier
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { _ ->
         Box(
             modifier = Modifier
@@ -240,6 +255,28 @@ private fun MainScreenPreviewWithInfo() {
             ),
             onRequestInstructionsClicked = {}
         )
+    }
+}
+
+@Composable
+private fun ProcessActions(
+    uiAction: SharedFlow<MainViewModel.UIAction>,
+    snackbarHostState: SnackbarHostState
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val errorMessage = stringResource(R.string.generic_error_message)
+    ObserveAsEvents(uiAction) { action ->
+        when (action) {
+            is MainViewModel.UIAction.ShowError -> {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = errorMessage,
+                        withDismissAction = true,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
+        }
     }
 }
 
