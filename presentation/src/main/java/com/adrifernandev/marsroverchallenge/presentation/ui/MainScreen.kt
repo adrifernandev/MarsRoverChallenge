@@ -50,7 +50,10 @@ fun MainScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            MainScreenBackground()
+            MainScreenBackground(
+                modifier = Modifier
+                    .fillMaxSize()
+            )
             MainScreenContent(
                 modifier = Modifier
                     .fillMaxSize()
@@ -76,134 +79,118 @@ private fun MainScreenContent(
     val finalRoverDirection = state.finalRover?.currentDirection
     val instructions = state.instructions
 
-    Box(modifier = modifier) {
-        Column(
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            Box(
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(
-                            DSTheme.border.radius.xl,
-                            DSTheme.border.radius.xl,
-                            0.dp,
-                            0.dp
-                        )
+                .clip(
+                    RoundedCornerShape(
+                        DSTheme.border.radius.xl,
+                        DSTheme.border.radius.xl,
+                        0.dp,
+                        0.dp
                     )
-                    .background(MaterialTheme.colorScheme.primaryContainer)
+                )
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(DSTheme.spacing.xl)
             ) {
-                Column(
+                Row(
                     modifier = Modifier
-                        .padding(DSTheme.spacing.xl)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        RoverPositionInfoModule(
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.initial_rover_position),
-                            roverPosition = initialRoverPosition,
-                            roverDirection = initialRoverDirection,
-                            horizontalAlignment = Alignment.Start
-                        )
-                        RoverPositionInfoModule(
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.final_rover_position),
-                            roverPosition = finalRoverPosition,
-                            roverDirection = finalRoverDirection,
-                            horizontalAlignment = Alignment.End
+                    val initialRoverPositionText = initialRoverPosition?.let {
+                        stringResource(
+                            R.string.rover_position,
+                            it.x,
+                            it.y,
+                            initialRoverDirection?.name ?: ""
                         )
                     }
-                    DSSpacer(
-                        spacing = DSTheme.spacing.large,
-                        type = SpacerType.VERTICAL
+                    RoverInfoModule(
+                        modifier = Modifier.weight(1f),
+                        title = stringResource(R.string.initial_rover_position),
+                        content = initialRoverPositionText,
+                        horizontalAlignment = Alignment.Start
                     )
-                    RoverInstructionsModule(instructions)
-                    DSSpacer(
-                        spacing = DSTheme.spacing.large,
-                        type = SpacerType.VERTICAL
-                    )
-                    DSPrimaryButton(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        buttonText = stringResource(R.string.request_rover_instructions),
-                        onClick = onRequestInstructionsClicked
+                    val finalRoverPositionText = finalRoverPosition?.let {
+                        stringResource(
+                            R.string.rover_position,
+                            it.x,
+                            it.y,
+                            finalRoverDirection?.name ?: ""
+                        )
+                    }
+                    RoverInfoModule(
+                        modifier = Modifier.weight(1f),
+                        title = stringResource(R.string.final_rover_position),
+                        content = finalRoverPositionText,
+                        horizontalAlignment = Alignment.End
                     )
                 }
+                DSSpacer(
+                    spacing = DSTheme.spacing.large,
+                    type = SpacerType.VERTICAL
+                )
+                RoverInfoModule(
+                    title = stringResource(R.string.rover_instructions),
+                    content = instructions,
+                )
+                DSSpacer(
+                    spacing = DSTheme.spacing.large,
+                    type = SpacerType.VERTICAL
+                )
+                DSPrimaryButton(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    buttonText = stringResource(R.string.request_rover_instructions),
+                    onClick = onRequestInstructionsClicked
+                )
             }
         }
     }
 }
 
 @Composable
-private fun RoverPositionInfoModule(
+private fun RoverInfoModule(
     modifier: Modifier = Modifier,
-    text: String,
-    roverPosition: Position?,
-    roverDirection: Direction?,
-    horizontalAlignment: Alignment.Horizontal
+    title: String,
+    content: String? = null,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = horizontalAlignment
     ) {
         Text(
-            text = text,
+            text = title,
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
-        if (roverPosition != null && roverDirection != null) {
-            val roverPositionText = stringResource(
-                id = R.string.rover_position,
-                roverPosition.x,
-                roverPosition.y,
-                roverDirection.name
-            )
+        content?.let {
             Text(
-                text = roverPositionText,
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
-        } else {
-            RoverPositionInfoNotAvailableModule()
-        }
-    }
-}
-
-@Composable
-private fun RoverInstructionsModule(
-    instructions: String? = null
-) {
-    Column {
-        Text(
-            text = stringResource(R.string.rover_instructions),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-        )
-        instructions?.let {
-            Text(
-                text = instructions,
+                text = it,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         } ?: run {
-            RoverInstructionsNotAvailableModule()
+            RoverInfoNotAvailableModule()
         }
     }
 }
 
 @Composable
-private fun RoverPositionInfoNotAvailableModule() {
+private fun RoverInfoNotAvailableModule() {
     Text(
-        text = stringResource(R.string.rover_position_not_available),
+        text = stringResource(R.string.not_available),
         style = MaterialTheme.typography.headlineSmall,
         fontWeight = FontWeight.Medium,
         color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -211,19 +198,11 @@ private fun RoverPositionInfoNotAvailableModule() {
 }
 
 @Composable
-private fun RoverInstructionsNotAvailableModule() {
-    Text(
-        text = stringResource(R.string.rover_instructions_not_available),
-        style = MaterialTheme.typography.headlineSmall,
-        fontWeight = FontWeight.Medium,
-        color = MaterialTheme.colorScheme.onPrimaryContainer,
-    )
-}
-
-@Composable
-private fun MainScreenBackground() {
+private fun MainScreenBackground(
+    modifier: Modifier = Modifier
+) {
     Image(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         painter = painterResource(R.drawable.img_mars_surface),
         contentDescription = DECORATIVE_CONTENT,
         contentScale = ContentScale.Crop
@@ -244,7 +223,10 @@ private fun MainScreenPreview() {
     val instructions = "LMLMLMLLMM"
 
     DSTheme {
-        MainScreenBackground()
+        MainScreenBackground(
+            modifier = Modifier
+                .fillMaxSize()
+        )
         MainScreenContent(
             state = MainViewModel.UIState(
                 initialRover = initialRover,
