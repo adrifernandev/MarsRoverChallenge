@@ -36,7 +36,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(1, 3), Direction.N)
+            finalRover = Rover(Position(1, 3), Direction.N),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -71,7 +72,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(4, 3), Direction.W)
+            finalRover = Rover(Position(4, 3), Direction.W),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -106,7 +108,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(4, 3), Direction.E)
+            finalRover = Rover(Position(4, 3), Direction.E),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -141,7 +144,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(3, 5), Direction.N)
+            finalRover = Rover(Position(3, 5), Direction.N),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -176,7 +180,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(2, 0), Direction.S)
+            finalRover = Rover(Position(2, 0), Direction.S),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -211,7 +216,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(2, 1), Direction.N)
+            finalRover = Rover(Position(2, 1), Direction.N),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -286,7 +292,8 @@ class NavigateRoverUseCaseTest {
             val expectedResult = RoverNavigationResult(
                 initialRover = rover,
                 instructions = instructions,
-                finalRover = Rover(Position(2, 1), Direction.N)
+                finalRover = Rover(Position(2, 1), Direction.N),
+                plateau = plateau
             )
 
             coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -321,7 +328,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(2, 4), Direction.N)
+            finalRover = Rover(Position(2, 4), Direction.N),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -357,7 +365,8 @@ class NavigateRoverUseCaseTest {
             val expectedResult = RoverNavigationResult(
                 initialRover = rover,
                 instructions = instructions,
-                finalRover = Rover(Position(2, 5), Direction.N)
+                finalRover = Rover(Position(2, 5), Direction.N),
+                plateau = plateau
             )
 
             coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -392,7 +401,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(0, 1), Direction.N)
+            finalRover = Rover(Position(0, 1), Direction.N),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -427,7 +437,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(0, 0), Direction.N)
+            finalRover = Rover(Position(0, 0), Direction.N),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
@@ -462,7 +473,8 @@ class NavigateRoverUseCaseTest {
         val expectedResult = RoverNavigationResult(
             initialRover = rover,
             instructions = instructions,
-            finalRover = Rover(Position(0, 0), Direction.S)
+            finalRover = Rover(Position(0, 0), Direction.S),
+            plateau = plateau
         )
 
         coEvery { roverRepository.getRoverInstructions() } returns flowOf(Result.success(input))
