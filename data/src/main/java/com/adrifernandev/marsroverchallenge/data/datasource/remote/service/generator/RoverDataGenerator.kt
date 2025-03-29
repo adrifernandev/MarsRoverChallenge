@@ -1,13 +1,18 @@
 package com.adrifernandev.marsroverchallenge.data.datasource.remote.service.generator
 
 import com.adrifernandev.marsroverchallenge.domain.models.Direction
-import kotlin.random.Random
+
+private const val MIN_POSITION = 0
+private const val MIN_TOP = 5
+private const val MAX_TOP = 10
+private const val MIN_MOVEMENTS = 5
+private const val MAX_MOVEMENTS = 11
 
 fun generateRandomRoverInputJson(): String {
-    val maxX = Random.nextInt(5, 11)
-    val maxY = Random.nextInt(5, 11)
-    val startX = Random.nextInt(0, maxX + 1)
-    val startY = Random.nextInt(0, maxY + 1)
+    val maxX = (MIN_TOP..MAX_TOP).random()
+    val maxY = (MIN_TOP..MAX_TOP).random()
+    val startX = (MIN_POSITION..maxX).random()
+    val startY = (MIN_POSITION..maxY).random()
     val direction = Direction.entries.toTypedArray().random().name
     val movements = generateRandomMovements()
 
@@ -28,9 +33,9 @@ fun generateRandomRoverInputJson(): String {
 }
 
 private fun generateRandomMovements(): String {
-    val length = Random.nextInt(5, 11)
+    val length = (MIN_MOVEMENTS..MAX_MOVEMENTS).random()
     return List(length) {
-        when (Random.nextInt(0, 3)) {
+        when ((0..3).random()) {
             0 -> "L"
             1 -> "R"
             else -> "M"
