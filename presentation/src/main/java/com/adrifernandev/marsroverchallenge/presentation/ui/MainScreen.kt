@@ -84,7 +84,14 @@ private fun MainScreenContent(
         ) {
             Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp))
+                    .clip(
+                        RoundedCornerShape(
+                            DSTheme.border.radius.xl,
+                            DSTheme.border.radius.xl,
+                            0.dp,
+                            0.dp
+                        )
+                    )
                     .background(MaterialTheme.colorScheme.primaryContainer)
             ) {
                 Column(
