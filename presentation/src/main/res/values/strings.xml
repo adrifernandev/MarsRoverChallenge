@@ -6,4 +6,5 @@
     <string name="not_available">Not available</string>
     <string name="request_rover_instructions">Request rover instructions</string>
     <string name="rover_instructions">Instructions</string>
+    <string name="generic_error_message">An error occurred</string>
 </resources>
