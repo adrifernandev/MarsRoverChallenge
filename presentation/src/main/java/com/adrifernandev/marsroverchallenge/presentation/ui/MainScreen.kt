@@ -183,7 +183,8 @@ private fun MainScreenContent(
                             .fillMaxWidth()
                             .navigationBarsPadding(),
                         buttonText = stringResource(R.string.request_rover_instructions),
-                        onClick = onRequestInstructionsClicked
+                        onClick = onRequestInstructionsClicked,
+                        enabled = state.isLoading.not()
                     )
                 }
             }
