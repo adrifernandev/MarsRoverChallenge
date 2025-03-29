@@ -18,11 +18,12 @@ class RoverRepositoryImpl @Inject constructor(
             .collectLatest { roverInputResult ->
                 roverInputResult.fold(
                     onSuccess = { roverInput ->
-                        send(
-                            Result.success(
-                                roverInput.toDomain()
-                            )
-                        )
+                        try {
+                            val roverInputDomain = roverInput.toDomain()
+                            send(Result.success(roverInputDomain))
+                        } catch (e: IllegalArgumentException) {
+                            send(Result.failure(e))
+                        }
                     },
                     onFailure = { error ->
                         send(Result.failure(error))
