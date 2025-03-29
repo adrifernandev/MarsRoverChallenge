@@ -24,8 +24,7 @@ class MainViewModel @Inject constructor(
         val initialRover: Rover? = null,
         val instructions: String? = null,
         val finalRover: Rover? = null,
-        val isLoading: Boolean = false,
-        val error: String? = null
+        val isLoading: Boolean = false
     )
 
     sealed class UIEvent {
