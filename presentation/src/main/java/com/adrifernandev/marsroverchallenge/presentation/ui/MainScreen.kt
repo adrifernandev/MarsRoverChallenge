@@ -37,6 +37,7 @@ import com.adrifernandev.marsroverchallenge.common.presentation.ui.PhonePreviews
 import com.adrifernandev.marsroverchallenge.common.presentation.ui.utils.ContentDescriptionUtils.DECORATIVE_CONTENT
 import com.adrifernandev.marsroverchallenge.common.presentation.ui.utils.ObserveAsEvents
 import com.adrifernandev.marsroverchallenge.designsystem.components.buttons.DSPrimaryButton
+import com.adrifernandev.marsroverchallenge.designsystem.components.loading.DSLoadingDialog
 import com.adrifernandev.marsroverchallenge.designsystem.components.spacing.DSSpacer
 import com.adrifernandev.marsroverchallenge.designsystem.components.spacing.SpacerType
 import com.adrifernandev.marsroverchallenge.designsystem.theme.DSTheme
@@ -189,6 +190,10 @@ private fun MainScreenContent(
                 }
             }
         }
+
+        DialogHandler(
+            state = state
+        )
     }
 }
 
@@ -263,6 +268,15 @@ private fun ProcessActions(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun DialogHandler(
+    state: MainViewModel.UIState
+) {
+    if (state.isLoading) {
+        DSLoadingDialog()
     }
 }
 
