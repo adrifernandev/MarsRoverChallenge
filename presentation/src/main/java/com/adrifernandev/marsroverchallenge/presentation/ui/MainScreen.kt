@@ -110,7 +110,9 @@ private fun MainScreenContent(
                 .align(Alignment.TopCenter),
             plateau = state.plateau,
             initialRoverPosition = initialRoverPosition,
-            finalRoverPosition = finalRoverPosition
+            initialRoverDirection = initialRoverDirection,
+            finalRoverPosition = finalRoverPosition,
+            finalRoverDirection = finalRoverDirection,
         )
         Column(
             modifier = modifier
