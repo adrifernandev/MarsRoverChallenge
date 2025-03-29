@@ -3,8 +3,8 @@
     <string name="rover_position">%1$d X %2$d Y %3$s</string>
     <string name="initial_rover_position">Initial Rover Position</string>
     <string name="final_rover_position">Final Rover Position</string>
-    <string name="rover_position_not_available">Rover Position not available</string>
-    <string name="rover_instructions_not_available">Rover Instructions not available</string>
+    <string name="rover_position_not_available">Not available</string>
+    <string name="rover_instructions_not_available">Instructions not available yet</string>
     <string name="request_rover_instructions">Request rover instructions</string>
     <string name="rover_instructions">Instructions</string>
 </resources>
