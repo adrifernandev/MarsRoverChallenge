@@ -36,7 +36,8 @@ class NavigateRoverUseCase @Inject constructor(
                             RoverNavigationResult(
                                 initialRover = roverInput.initialRover,
                                 instructions = roverInput.instructions,
-                                finalRover = currentRover
+                                finalRover = currentRover,
+                                plateau = roverInput.plateau
                             )
                         )
                     )
