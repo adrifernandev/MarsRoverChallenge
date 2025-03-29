@@ -17,12 +17,12 @@ fun RoverInstructionsDTO.toDomain(): RoverInput {
     )
 }
 
-private fun PositionDTO.toPlateau(): Plateau {
+fun PositionDTO.toPlateau(): Plateau {
     require(this.x >= 0 && this.y >= 0) { "Plateau dimensions must be non-negative" }
     return Plateau(Position(this.x, this.y))
 }
 
-private fun toRover(positionDTO: PositionDTO, direction: String): Rover {
+fun toRover(positionDTO: PositionDTO, direction: String): Rover {
     require(positionDTO.x >= 0 && positionDTO.y >= 0) { "Rover position must be non-negative" }
     return Rover(
         currentPosition = Position(positionDTO.x, positionDTO.y),
