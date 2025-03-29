@@ -9,14 +9,15 @@ private const val MIN_MOVEMENTS = 5
 private const val MAX_MOVEMENTS = 11
 
 fun generateRandomRoverInputJson(): String {
-    val maxX = (MIN_TOP..MAX_TOP).random()
-    val maxY = (MIN_TOP..MAX_TOP).random()
-    val startX = (MIN_POSITION..maxX).random()
-    val startY = (MIN_POSITION..maxY).random()
-    val direction = Direction.entries.toTypedArray().random().name
-    val movements = generateRandomMovements()
+    try {
+        val maxX = (MIN_TOP..MAX_TOP).random()
+        val maxY = (MIN_TOP..MAX_TOP).random()
+        val startX = (MIN_POSITION..maxX).random()
+        val startY = (MIN_POSITION..maxY).random()
+        val direction = Direction.entries.toTypedArray().random().name
+        val movements = generateRandomMovements()
 
-    return """
+        return """
             {
                 "topRightCorner": {
                     "x": $maxX,
@@ -30,6 +31,9 @@ fun generateRandomRoverInputJson(): String {
                 "movements": "$movements"
             }
         """.trimIndent()
+    } catch (e: IllegalArgumentException) {
+        throw IllegalArgumentException("Invalid input data for rover generation: ${e.message}")
+    }
 }
 
 private fun generateRandomMovements(): String {
