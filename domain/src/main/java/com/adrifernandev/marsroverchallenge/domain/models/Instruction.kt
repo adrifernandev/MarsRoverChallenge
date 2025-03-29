@@ -20,7 +20,15 @@ sealed class Instruction {
 data class Instructions(val commands: List<Instruction>) {
     companion object {
         fun fromString(instructions: String): Instructions {
-            return Instructions(instructions.map { Instruction.fromChar(it) })
+            val validInstructions = mutableListOf<Instruction>()
+            instructions.forEach { char ->
+                try {
+                    validInstructions.add(Instruction.fromChar(char))
+                } catch (e: IllegalArgumentException) {
+                    throw e
+                }
+            }
+            return Instructions(validInstructions)
         }
     }
 }
